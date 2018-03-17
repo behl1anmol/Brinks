@@ -79,3 +79,21 @@
 	<iostream>
 	<windows.h>
 
+1521285283 source:c:\github\brinks\code\main.cpp
+	<stdlib.h>
+	<bits/stdc++.h>
+	<cstdlib>
+	<string>
+	<vector>
+	<fstream>
+	<time.h>
+	<dos.h>
+	<iomanip>
+	<process.h>
+	"Voice.h"
+	<windows.h>
+	<stdio.h>
+	<iostream>
+	"learner.h"
+	<conio.h>
+
