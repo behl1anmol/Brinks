@@ -60,3 +60,22 @@
 	<windows.h>
 	<vector>
 
+1510251384 source:c:\github\brinks\code\learner.cpp
+	"learner.h"
+	<iostream>
+	<bits/stdc++.h>
+	<fstream>
+
+1509882791 c:\github\brinks\code\learner.h
+	<iostream>
+	<fstream>
+	"voice.h"
+
+1422960910 c:\github\brinks\code\voice.h
+	<iostream>
+
+1509619640 source:c:\github\brinks\code\voice.cpp
+	"voice.h"
+	<iostream>
+	<windows.h>
+
