@@ -18,14 +18,29 @@
 #define MAX_NUM 10;
 using namespace std;
 
+class login
+    {
+    public:
+    char dob[100],username[100],password[100],sq[100],ans[100];
+    char sex;
+    int age;
+
+    void signup();
+    int signin();
+    void forgotpassword();
+    void interphase();
+
+    }o;
+
+    struct snakeBlock
+    {
+    int x,y;
+};
+
+bool l;
+char username1[100],password1[100],sq1[100],ans1[100];
+char fp,ch;
 char square[10] = {'o','1','2','3','4','5','6','7','8','9'};
-int checkwin();
-void board();
-void tictactoe();
-
-
-
-
 Learner AIG;
 int i=0,j,cs,k=1;
 string identity;
@@ -57,6 +72,10 @@ class chatbot
 }c;
 COORD coordm={0,0};//sets center of axis to left corner for gotoxy
 void introduction();
+void input();
+int checkwin();
+void board();
+void tictactoe();
 void gotoxym(int,int);
 void login();
 void instructions();
@@ -70,6 +89,19 @@ void game();
 void quiz1();
 //int snake2();
 void kiet();
+int strcmpo(const char*str1,const char*str2)
+{
+    while(*str1==*str2)
+    {
+        if(*str1=='\0')
+        {
+            return 0;
+        }
+        str1++;
+        str2++;
+    }
+    return(*str1-*str2);
+}
 void time1()
 {
 
@@ -81,9 +113,7 @@ void time1()
       cout<<"TIME:"<<now->tm_hour
         <<':'<<now->tm_min<<endl;
 }
-struct snakeBlock{
-    int x,y;
-};
+
 
 void gotoxy(int x, int y)
 {
@@ -94,6 +124,209 @@ void gotoxy(int x, int y)
 char guess; //Answer user inputs for question.
 int total;  //Total score.
 
+void login ::signup()
+    {
+        clrscr();
+        cin.ignore();
+        ofstream x;
+        x.open("login.dat",ios::binary|ios::app);
+        gotoxy(0,10);
+        cout<<"USERNAME -> ";
+        cout<<endl;
+        gotoxy(0,12);
+        cout<<"PASSWORD -> ";
+        cout<<endl;
+        gotoxy(0,14);
+        cout<<"DATE OF BIRTH -> ";
+        cout<<endl;
+        gotoxy(0,16);
+        cout<<"AGE -> ";
+        cout<<endl;
+        gotoxy(0,18);
+        cout<<"SEX (M/F) -> ";
+        cout<<endl;
+        gotoxy(0,20);
+        cout<<"SEQURITY NUMBER -> ";
+        cout<<endl;
+        gotoxy(0,19);
+        cout<<"ANSWER -> ";
+
+        fflush(stdin);
+        gotoxy(13,10);
+        cin>>o.username;
+        fflush(stdin);
+        gotoxy(13,12);
+        cin>>o.password;
+        fflush(stdin);
+        gotoxy(17,14);
+        cin>>o.dob;
+        fflush(stdin);
+        gotoxy(8,16);
+        cin>>o.age;
+        fflush(stdin);
+        gotoxy(14,18);
+        cin>>o.sex;
+        fflush(stdin);
+        gotoxy(22,20);
+        cin>>o.sq;
+        fflush(stdin);
+        gotoxy(11,22);
+        cin>>o.ans;
+        fflush(stdin);
+        cout<<endl;
+
+        x.write((char*)&o,sizeof(o));
+        x.close();
+    }
+
+    int login::signin()
+    {
+        clrscr();
+        ifstream x;
+        x.open("login.dat",ios::binary);
+        bool c;
+
+        gotoxy(0,10);
+        cout<<"USERNAME -> ";
+        cout<<endl;
+        gotoxy(0,12);
+        cout<<"PASSWORD -> ";
+        gotoxy(13,10);
+        fflush(stdin);
+        cin>>username1;
+        gotoxy(13,12);
+        fflush(stdin);
+        cin>>password1;
+
+        while(x.read((char*)&o,sizeof(o)))
+           {
+
+               if(strcmpo(username1,o.username)==0)
+               {
+                   if(strcmpo(o.password,password1)==0)
+                   {
+                       l="True";
+                         return 1;
+                   }
+                   else{
+                    gotoxy(0,16);
+                    cout<<"Forgot Password (Y/N) -> ";
+                    cin>>fp;
+                    if(fp=='Y'||fp=='y')
+                        return 0;
+
+                   }
+               }
+                 if(x.eof()){
+                        gotoxy(0,14);
+                        cout<<"Incorrect Username";
+                        gotoxy(13,10);
+                        cin>>username1;
+                        x.seekg(0,ios::beg);
+                   }
+               }
+           x.close();
+    }
+
+    void login::forgotpassword()
+    {
+         clrscr();
+         int temp=0;
+         ifstream x;
+         x.open("login.dat",ios::binary);
+
+         gotoxy(0,10);
+         cout<<"USERNAME -> ";
+         gotoxy(0,12);
+         cout<<"NEW PASSWORD -> ";
+         gotoxy(12,10);
+         fflush(stdin);
+         cin>>username1;
+
+
+         while(x.read((char*)&o,sizeof(o)))
+           {
+               temp++;
+               if(strcmpo(username1,o.username))
+                {
+                    gotoxy(0,14);
+                    cout<<"SEQURITY NUMBER -> ";
+                    gotoxy(19,14);
+                    fflush(stdin);
+                    cout<<o.sq;
+                    gotoxy(0,16);
+                    cout<<"ANSWER -> ";
+                    fflush(stdin);
+                    cin>>ans1;
+                    if(strcmpo(o.ans,ans1))
+                    {
+                        gotoxy(17,12);
+                        fflush(stdin);
+                        cin>>o.password;
+                    }
+
+                   }
+
+                 if(x.eof()){
+                        gotoxy(0,18);
+                        cout<<"Incorrect Username Please Enter Again";
+                        gotoxy(12,10);
+                        cin>>username1;
+                        x.seekg(0,ios::beg);
+                        temp==0;
+                   }
+               }
+               x.close();
+
+               ofstream y;
+               y.open("login.dat",ios::binary);
+               y.seekp(temp,ios::beg);
+               y.write((char*)&o,sizeof(o));
+               y.close();
+
+
+    }
+
+    void input()
+    {
+
+      gotoxy(75,20);
+        cout<<"WELCOME";
+        gotoxy(74,21);
+        cout<<"---------";
+        gotoxy(73,23);
+        cout<<"1) SIGNUP";
+        gotoxy(73,25);
+        cout<<"2) SIGNIN";
+        cin.get(ch);
+    }
+
+    void login()
+    {
+        int flag,flag1;
+        clrscr();
+
+        input();
+
+        switch(ch)
+        {
+        case '1':
+            o.signup();
+            input();
+            ch='2';
+        case '2':
+            flag=o.signin();
+            if(flag==0)
+            {
+                o.forgotpassword();
+                flag1=o.signin();
+            }
+            break;
+        default:
+            exit(0);
+
+        }
+    }
 
 //4 possible answers, correct answer and question score.
 class Question{
@@ -763,14 +996,15 @@ void introduction()
     time1();
 /* cout<<"KIET GROUP OF INSTITUTION,GHAZIABAD \n";
  cout<<"INNOTECH 2K17 \n";*/
- cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\t K3AL\n";
+/* cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\t K3AL\n";
  cout<<"\t\t\t\t\t\t\t\t\t\t******\n\n\n\n";
  cout<<"\t\t\t\t\t\t\t\t->IF YOU ALREADY HAVE AN IDENTITY :PRESS 1 \n\n";
  cout<<"\t\t\t\t\t\t\t\t->TO CREATE A NEW IDENTITY :PRESS 2 \n";
  cout<<"\n\n\n\n\t\t\t\t\t\t\t\t->YOU:";
- cin>>ch;
+ cin>>ch;*/
  clrscr();
- switch(ch)
+ login();
+ /*switch(ch)
  {
 case 1:
     time1();
@@ -788,7 +1022,7 @@ case 2:
     break;
 default:
     exit(0);
- }
+ }*/
 }
 
 void instructions()
@@ -813,7 +1047,7 @@ void instructions()
     getch();
 }
 
-void login()
+/*void login()                        //OLD LOGIN INTERPHASE
 {
     clrscr();
     date1();
@@ -843,7 +1077,7 @@ void login()
     //getch();
 
 }
-
+                                         //OLD LOGIN FUNCTION
 void prelogin(string identity)
 {
     fstream x("blah.txt",ios::in);
@@ -865,7 +1099,7 @@ void prelogin(string identity)
     //j=0;
     x.close();
 //    fclose(fin);
-}
+}*/
 
 void date1()
 {
